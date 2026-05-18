@@ -1,13 +1,136 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>xplyweb — power_house</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My First Website | JROChub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@500;600&display=swap');
+        body { font-family: 'Inter', system-ui, sans-serif; }
+        .font-display { font-family: 'Space Grotesk', 'Inter', sans-serif; font-weight: 600; }
+        .hero-bg { background: linear-gradient(135deg, #0f172a 0%, #1e1135 100%); }
+        .section-header { font-size: 2.5rem; line-height: 1.1; font-weight: 700; letter-spacing: -0.025em; }
+        .nav-link { transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
+        .nav-link:hover { color: #6366f1; transform: translateY(-1px); }
+        .card { transition: transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0.0, 0.2, 1); }
+        .card:hover { transform: translateY(-8px); box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1); }
+        .gradient-text { background: linear-gradient(90deg, #6366f1, #a855f7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-200">
+    <!-- Navbar -->
+    <nav class="border-b border-slate-800 bg-slate-950/80 backdrop-blur-lg sticky top-0 z-50">
+        <div class="max-w-screen-xl mx-auto">
+            <div class="px-8 py-5 flex items-center justify-between">
+                <div class="flex items-center gap-x-3">
+                    <div class="w-9 h-9 bg-indigo-600 rounded-2xl flex items-center justify-center"><span class="text-white font-bold text-2xl">J</span></div>
+                    <div><span class="font-display text-2xl font-semibold tracking-tighter">JROChub</span></div>
+                </div>
+                <div class="hidden md:flex items-center gap-x-8 text-sm">
+                    <a href="#about" class="nav-link text-slate-300 hover:text-white font-medium">About</a>
+                    <a href="#projects" class="nav-link text-slate-300 hover:text-white font-medium">Projects</a>
+                    <a href="#skills" class="nav-link text-slate-300 hover:text-white font-medium">Skills</a>
+                    <a href="#contact" class="nav-link text-slate-300 hover:text-white font-medium">Contact</a>
+                </div>
+                <div class="flex items-center gap-x-4">
+                    <a href="https://github.com/JROChub" target="_blank" class="flex items-center gap-x-2 px-4 py-2 text-sm font-medium text-slate-300 hover:text-white transition-colors"><i class="fab fa-github"></i> <span class="hidden sm:inline">GitHub</span></a>
+                    <a href="#contact" class="px-5 py-2.5 bg-white text-slate-900 hover:bg-slate-100 transition-all font-semibold text-sm rounded-3xl flex items-center gap-x-2"><span>Get in touch</span></a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <header class="hero-bg pt-16 pb-24">
+        <div class="max-w-screen-xl mx-auto px-8">
+            <div class="max-w-3xl">
+                <div class="inline-flex items-center gap-x-2 px-4 py-1.5 rounded-3xl bg-white/5 border border-white/10 mb-6">
+                    <div class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
+                    <span class="text-sm font-medium text-emerald-400">Available for freelance & collaborations</span>
+                </div>
+                <h1 class="text-7xl md:text-7xl font-display tracking-tighter leading-none mb-6">Hi, I'm <span class="gradient-text">JROChub</span>.<br>I build things for the web.</h1>
+                <p class="max-w-lg text-xl text-slate-400 mb-10">Full-stack developer passionate about creating beautiful, performant, and verifiable web experiences.</p>
+                <div class="flex flex-wrap items-center gap-4">
+                    <a href="#projects" class="px-8 py-4 bg-indigo-600 hover:bg-indigo-500 transition-all font-semibold rounded-3xl text-lg flex items-center justify-center gap-x-3 group"><span>Explore my work</span> <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform"></i></a>
+                    <a href="#contact" class="px-8 py-4 border border-white/20 hover:bg-white/5 transition-all font-semibold rounded-3xl text-lg">Let's talk</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- About -->
+    <section id="about" class="max-w-screen-xl mx-auto px-8 py-20 border-b border-slate-800">
+        <div class="grid md:grid-cols-12 gap-x-12 items-center">
+            <div class="md:col-span-5 mb-10 md:mb-0"><div class="sticky top-8"><span class="text-indigo-400 font-semibold tracking-[3px] text-sm">CHAPTER 01</span><h2 class="section-header tracking-tighter mt-3">About me</h2></div></div>
+            <div class="md:col-span-7 text-lg text-slate-300 leading-relaxed"><p class="mb-6">I'm a developer focused on building delightful digital experiences. I love working at the intersection of design, engineering, and verifiable computation.</p><p>Currently exploring Rust + WebAssembly for high-performance browser applications and creating tools that make complex technology accessible.</p><div class="mt-8 flex items-center gap-x-4"><div class="px-5 py-3 bg-slate-900 rounded-3xl text-sm flex items-center gap-x-2 border border-slate-800"><i class="fas fa-map-marker-alt text-emerald-400"></i> <span>Based in California</span></div></div></div>
+        </div>
+    </section>
+
+    <!-- Stats -->
+    <div class="max-w-screen-xl mx-auto px-8 py-12 border-b border-slate-800">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+            <div><div class="text-5xl font-display font-semibold tracking-tighter">12</div><div class="text-slate-400 mt-1">Projects shipped</div></div>
+            <div><div class="text-5xl font-display font-semibold tracking-tighter">8</div><div class="text-slate-400 mt-1">Open source contributions</div></div>
+            <div><div class="text-5xl font-display font-semibold tracking-tighter">3</div><div class="text-slate-400 mt-1">Speaking engagements</div></div>
+            <div><div class="text-5xl font-display font-semibold tracking-tighter">∞</div><div class="text-slate-400 mt-1">Cups of coffee</div></div>
+        </div>
+    </div>
+
+    <!-- Projects -->
+    <section id="projects" class="max-w-screen-xl mx-auto px-8 py-20">
+        <div class="flex justify-between items-end mb-10"><div><span class="text-indigo-400 font-semibold tracking-[3px] text-sm">CHAPTER 02</span><h2 class="section-header tracking-tighter">Featured projects</h2></div><a href="https://github.com/JROChub" class="hidden md:flex items-center gap-x-2 text-sm font-medium text-slate-400 hover:text-white">View all on GitHub <i class="fas fa-external-link-alt ml-2 text-xs"></i></a></div>
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="card group bg-slate-900 border border-slate-800 rounded-3xl p-7 hover:border-indigo-500/30">
+                <div class="flex justify-between items-start mb-6"><div class="w-12 h-12 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-2xl flex items-center justify-center"><i class="fas fa-globe text-white text-3xl"></i></div><span class="text-xs px-3 py-1 bg-emerald-900/30 text-emerald-400 rounded-2xl font-mono">LIVE</span></div>
+                <h3 class="font-semibold text-2xl tracking-tight mb-3 group-hover:text-indigo-400 transition-colors">xplyweb</h3>
+                <p class="text-slate-400 mb-6">Interactive Web Playground for verifiable computation using Rust + WASM. Real sum-check proofs in the browser.</p>
+                <div class="flex items-center justify-between text-sm"><div class="flex gap-x-2"><span class="px-3 py-1 bg-slate-800 rounded-2xl text-xs">React</span><span class="px-3 py-1 bg-slate-800 rounded-2xl text-xs">WASM</span></div><a href="https://github.com/JROChub/xplyweb" class="text-indigo-400 hover:text-indigo-300 flex items-center gap-x-1.5"><span class="font-medium">Source</span> <i class="fas fa-arrow-right"></i></a></div>
+            </div>
+            <div class="card group bg-slate-900 border border-slate-800 rounded-3xl p-7 hover:border-indigo-500/30">
+                <div class="flex justify-between items-start mb-6"><div class="w-12 h-12 bg-gradient-to-br from-emerald-500 to-teal-500 rounded-2xl flex items-center justify-center"><i class="fas fa-chart-line text-white text-3xl"></i></div></div>
+                <h3 class="font-semibold text-2xl tracking-tight mb-3 group-hover:text-indigo-400 transition-colors">Analytics Dashboard</h3>
+                <p class="text-slate-400 mb-6">Real-time analytics platform with beautiful visualizations.</p>
+                <div class="flex items-center justify-between text-sm"><div class="flex gap-x-2"><span class="px-3 py-1 bg-slate-800 rounded-2xl text-xs">Next.js</span><span class="px-3 py-1 bg-slate-800 rounded-2xl text-xs">Recharts</span></div><span class="text-emerald-400 text-xs font-medium">COMING SOON</span></div>
+            </div>
+            <div class="card group bg-slate-900 border border-slate-800 rounded-3xl p-7 hover:border-indigo-500/30">
+                <div class="flex justify-between items-start mb-6"><div class="w-12 h-12 bg-gradient-to-br from-orange-500 to-amber-500 rounded-2xl flex items-center justify-center"><i class="fas fa-robot text-white text-3xl"></i></div></div>
+                <h3 class="font-semibold text-2xl tracking-tight mb-3 group-hover:text-indigo-400 transition-colors">AI Playground</h3>
+                <p class="text-slate-400 mb-6">Experimental interface for interacting with local and cloud AI models.</p>
+                <div class="flex items-center justify-between text-sm"><div class="flex gap-x-2"><span class="px-3 py-1 bg-slate-800 rounded-2xl text-xs">Python</span><span class="px-3 py-1 bg-slate-800 rounded-2xl text-xs">FastAPI</span></div><span class="text-amber-400 text-xs font-medium">IN PROGRESS</span></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills -->
+    <section id="skills" class="bg-slate-900 border-y border-slate-800 py-16">
+        <div class="max-w-screen-xl mx-auto px-8">
+            <div class="max-w-xl mb-10"><span class="text-indigo-400 font-semibold tracking-[3px] text-sm">CHAPTER 03</span><h2 class="section-header tracking-tighter">What I work with</h2></div>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="bg-slate-950 border border-slate-800 rounded-3xl p-6"><div class="font-semibold mb-4 flex items-center gap-x-3"><i class="fab fa-react text-sky-400"></i> Frontend</div><div class="flex flex-wrap gap-2 text-sm text-slate-400"><span>React</span> <span>Tailwind</span> <span>TypeScript</span> <span>Next.js</span></div></div>
+                <div class="bg-slate-950 border border-slate-800 rounded-3xl p-6"><div class="font-semibold mb-4 flex items-center gap-x-3"><i class="fab fa-node-js text-emerald-400"></i> Backend</div><div class="flex flex-wrap gap-2 text-sm text-slate-400"><span>Node.js</span> <span>Python</span> <span>Rust</span></div></div>
+                <div class="bg-slate-950 border border-slate-800 rounded-3xl p-6"><div class="font-semibold mb-4 flex items-center gap-x-3"><i class="fas fa-microchip text-purple-400"></i> Systems</div><div class="flex flex-wrap gap-2 text-sm text-slate-400"><span>WebAssembly</span> <span>Rust</span></div></div>
+                <div class="bg-slate-950 border border-slate-800 rounded-3xl p-6"><div class="font-semibold mb-4 flex items-center gap-x-3"><i class="fas fa-tools text-amber-400"></i> Tools</div><div class="flex flex-wrap gap-2 text-sm text-slate-400"><span>Vite</span> <span>Git</span> <span>Docker</span> <span>GitHub Actions</span></div></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="max-w-screen-xl mx-auto px-8 py-20">
+        <div class="max-w-2xl"><span class="text-indigo-400 font-semibold tracking-[3px] text-sm">CHAPTER 04</span><h2 class="section-header tracking-tighter mb-4">Let's build something together.</h2><p class="text-xl text-slate-400 mb-10">I'm always open to interesting projects, collaborations, or just chatting about technology.</p>
+            <div class="flex flex-col sm:flex-row gap-4">
+                <a href="mailto:hello@jrochub.dev" class="flex-1 px-8 py-4 bg-white text-slate-900 hover:bg-slate-100 font-semibold rounded-3xl flex items-center justify-center gap-x-3 transition-all"><i class="fas fa-envelope"></i> <span>Send me an email</span></a>
+                <a href="https://github.com/JROChub" target="_blank" class="flex-1 px-8 py-4 border border-white/20 hover:bg-white/5 font-semibold rounded-3xl flex items-center justify-center gap-x-3 transition-all"><i class="fab fa-github"></i> <span>Connect on GitHub</span></a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="border-t border-slate-800 py-8"><div class="max-w-screen-xl mx-auto px-8 text-center text-sm text-slate-500">&copy; 2026 JROChub • My First Website • Deployed with ❤️ on GitHub Pages</div></footer>
+
+    <script>
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => { anchor.addEventListener('click', function(e) { const target = document.querySelector(this.getAttribute('href')); if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); } }); });
+        console.log('%c[My First Website] Beautiful static site deployed successfully!', 'color:#64748b');
+    </script>
+</body>
 </html>
