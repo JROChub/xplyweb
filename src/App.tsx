@@ -66,7 +66,7 @@ export default function App() {
 
     for (let r = 1; r <= totalRounds; r++) {
       setCurrentRound(r)
-      await new Promise(resolve => setTimeout(resolve, wasm ? 50 : 100))
+      await new Promise(resolve => setTimeout(resolve, wasm ? 45 : 90))
     }
 
     let resultText = ''
@@ -183,7 +183,7 @@ export default function App() {
 
         {!wasmReady && (
           <div className="mb-6 p-4 bg-amber-950/30 border border-amber-900/50 rounded-2xl text-sm text-amber-300">
-            <strong>Real mode available:</strong> Run <span className="font-mono bg-black/40 px-1.5 py-0.5 rounded">wasm-pack build --target web --out-dir src/wasm</span> then refresh to unlock full power_house proofs.
+            <strong>Unlock real mode:</strong> Run <span className="font-mono bg-black/40 px-1.5 py-0.5 rounded">wasm-pack build --target web --out-dir src/wasm</span> then refresh to use full power_house capability.
           </div>
         )}
 
@@ -220,7 +220,7 @@ export default function App() {
                 </button>
 
                 {proofResult && (
-                  <div className={`mt-6 p-6 rounded-2xl font-mono text-sm whitespace-pre-wrap border ${lastProofWasReal ? 'bg-emerald-950/40 border-emerald-900 text-emerald-300' : 'bg-black/40 border-white/10'}`}>
+                  <div className={`mt-6 p-6 rounded-2xl font-mono text-sm whitespace-pre-wrap border transition-all ${lastProofWasReal ? 'bg-emerald-950/40 border-emerald-900 text-emerald-300 shadow-lg shadow-emerald-900/20' : 'bg-black/40 border-white/10'}`}>
                     {proofResult}
                     {lastProofWasReal && <div className="mt-3 text-xs text-emerald-400/70">✓ Executed with real power_house WASM</div>}
                   </div>
@@ -283,7 +283,7 @@ export default function App() {
       </section>
 
       <div className="max-w-screen-2xl mx-auto px-8 pb-16 text-xs text-white/40 text-center">
-        Continuing • power_house large-scale verifiable computation
+        Continuing development • power_house large-scale proofs
       </div>
     </div>
   )
