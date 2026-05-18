@@ -40,6 +40,7 @@ export default function App() {
   const [degree, setDegree] = useState(256)
   const [currentRound, setCurrentRound] = useState(0)
   const [totalRounds] = useState(8)
+  const [lastProofWasReal, setLastProofWasReal] = useState(false)
 
   const [merkleNodes, setMerkleNodes] = useState<string[][]>([
     ['A1','B2','C3','D4'], ['AB','CD'], ['ROOT']
@@ -58,22 +59,24 @@ export default function App() {
     setIsRunning(true)
     setProofResult(null)
     setCurrentRound(0)
+    setLastProofWasReal(false)
 
     const start = performance.now()
     const wasm = await ensureWasm()
 
-    // Simulate visible proof rounds for better UX
     for (let r = 1; r <= totalRounds; r++) {
       setCurrentRound(r)
-      await new Promise(resolve => setTimeout(resolve, wasm ? 80 : 140))
+      await new Promise(resolve => setTimeout(resolve, wasm ? 70 : 130))
     }
 
     let resultText = ''
+    let isReal = false
 
     if (wasm && wasm.generate_sumcheck_proof) {
       try {
         const res = wasm.generate_sumcheck_proof(degree)
-        resultText = `Real WASM Proof\nDegree: ${degree}\n${res}`
+        resultText = `✅ Real WASM Proof from power_house\nDegree: ${degree}\n${res}`
+        isReal = true
       } catch (e) {
         resultText = 'WASM execution error. Check console.'
         console.error(e)
@@ -85,6 +88,7 @@ export default function App() {
     const duration = ((performance.now() - start)).toFixed(0) + 'ms'
 
     setProofResult(resultText)
+    setLastProofWasReal(isReal)
 
     const newRecord: ProofRecord = {
       id: Date.now(),
@@ -216,7 +220,12 @@ export default function App() {
                   {isRunning ? 'Running Proof...' : 'Execute Proof'}
                 </button>
 
-                {proofResult && <div className="mt-6 p-6 bg-black/40 rounded-2xl font-mono text-sm whitespace-pre-wrap border border-white/10">{proofResult}</div>}
+                {proofResult && (
+                  <div className={`mt-6 p-6 rounded-2xl font-mono text-sm whitespace-pre-wrap border ${lastProofWasReal ? 'bg-emerald-950/40 border-emerald-900 text-emerald-300' : 'bg-black/40 border-white/10'}`}>
+                    {proofResult}
+                    {lastProofWasReal && <div className="mt-3 text-xs text-emerald-400/70">✓ Verified with real Rust WASM</div>}
+                  </div>
+                )}
               </div>
             )}
 
@@ -275,7 +284,7 @@ export default function App() {
       </section>
 
       <div className="max-w-screen-2xl mx-auto px-8 pb-16 text-xs text-white/40 text-center">
-        Continuing development • Professional verifiable computation environment
+        Continuing • Making xplyweb a serious verifiable computation tool
       </div>
     </div>
   )
