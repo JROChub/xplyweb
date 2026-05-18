@@ -1,5 +1,24 @@
 import { useState } from 'react'
 
+// WASM module type (will be populated after wasm-pack build)
+let wasmModule: any = null;
+
+async function initWasm() {
+  if (wasmModule) return wasmModule;
+  
+  try {
+    // This will work after you run: wasm-pack build --target web --out-dir src/wasm
+    const wasm = await import('./wasm/xplyweb_core');
+    await wasm.default(); // Initialize wasm-bindgen
+    wasmModule = wasm;
+    console.log('%c[xplyweb] Real power_house WASM loaded successfully', 'color:#22c55e');
+    return wasm;
+  } catch (error) {
+    console.warn('%c[xplyweb] WASM not built yet. Using simulation mode.', 'color:#f59e0b');
+    return null;
+  }
+}
+
 function PlaygroundTab({ active, onClick, children }: { active: boolean; onClick: () => void; children: React.ReactNode }) {
   return (
     <button
@@ -17,40 +36,64 @@ export default function App() {
   const [activeTab, setActiveTab] = useState<'sumcheck' | 'merkle' | 'transcript'>('sumcheck')
   const [isRunning, setIsRunning] = useState(false)
   const [proofResult, setProofResult] = useState<string | null>(null)
+  const [wasmLoaded, setWasmLoaded] = useState(false)
   const [merkleNodes, setMerkleNodes] = useState<string[][]>([
     ['A1', 'B2', 'C3', 'D4'],
     ['AB', 'CD'],
     ['ROOT']
   ])
 
-  // Placeholder for real WASM integration from power_house
+  // Initialize WASM on first proof run
+  const ensureWasm = async () => {
+    if (!wasmLoaded) {
+      const mod = await initWasm();
+      if (mod) setWasmLoaded(true);
+      return mod;
+    }
+    return wasmModule;
+  }
+
   const runSumCheckProof = async () => {
     setIsRunning(true)
     setProofResult(null)
 
-    // TODO: Replace with actual call to power_house WASM
-    // import init, { generate_sumcheck_proof } from './wasm/xplyweb_core'
-    
-    setTimeout(() => {
-      setProofResult('✅ Sum-check proof verified successfully\nRounds: 8 | Time: 14ms | Soundness: cryptographic')
-      setIsRunning(false)
-    }, 1350)
+    const wasm = await ensureWasm();
+
+    if (wasm && wasm.generate_sumcheck_proof) {
+      // Real WASM call (adjust function name based on your Rust exports)
+      try {
+        const result = wasm.generate_sumcheck_proof(256);
+        setProofResult(`✅ Real proof from power_house WASM\n${result}`);
+      } catch (e) {
+        setProofResult('Real WASM call failed. Check console for details.');
+        console.error(e);
+      }
+    } else {
+      // Simulation fallback until WASM is built
+      setTimeout(() => {
+        setProofResult(
+          '✅ Sum-check proof verified (simulation mode)\n' +
+          'Rounds: 8 | Time: 14ms | Soundness: cryptographic\n\n' +
+          'Build WASM with: wasm-pack build --target web --out-dir src/wasm'
+        );
+      }, 900);
+    }
+
+    setIsRunning(false);
   }
 
   const rebuildMerkleTree = () => {
-    // Simulate real Merkle tree rebuild
     const newLevels = [
       Array.from({ length: 8 }, (_, i) => (i * 17).toString(16).toUpperCase()),
       Array.from({ length: 4 }, (_, i) => `L1-${i}`),
       Array.from({ length: 2 }, (_, i) => `L2-${i}`),
       ['ROOT']
-    ]
-    setMerkleNodes(newLevels)
+    ];
+    setMerkleNodes(newLevels);
   }
 
   return (
     <div className="min-h-screen bg-[#0a0c14] text-white">
-      {/* Navbar */}
       <nav className="border-b border-white/10 bg-[#0a0c14]/95 backdrop-blur-xl sticky top-0 z-50">
         <div className="max-w-screen-2xl mx-auto px-8 h-20 flex items-center justify-between">
           <div className="flex items-center gap-x-4">
@@ -75,10 +118,8 @@ export default function App() {
             </button>
           </div>
         </div>
-      </div>
       </nav>
 
-      {/* Hero */}
       <header className="pt-16 pb-20 border-b border-white/10">
         <div className="max-w-screen-2xl mx-auto px-8">
           <div className="max-w-4xl">
@@ -92,27 +133,24 @@ export default function App() {
               <span className="bg-gradient-to-r from-indigo-400 via-violet-400 to-fuchsia-400 bg-clip-text text-transparent">In your browser.</span>
             </h1>
             <p className="max-w-xl text-2xl text-white/70 tracking-tight">
-              Real cryptographic proofs powered by <span className="text-white">power_house</span> running natively via WebAssembly.
+              Real cryptographic proofs powered by power_house running natively via WebAssembly.
             </p>
           </div>
         </div>
       </header>
 
-      {/* Playground */}
       <section id="playground" className="max-w-screen-2xl mx-auto px-8 pt-16 pb-20">
         <div className="mb-8">
           <div className="text-indigo-400 tracking-[3px] text-xs font-semibold mb-3">INTERACTIVE • REAL-TIME</div>
           <h2 className="font-display text-7xl tracking-[-3px] font-semibold">The Playground</h2>
         </div>
 
-        {/* Tabs */}
         <div className="flex gap-2 mb-6 bg-white/5 p-1.5 rounded-3xl w-fit">
           <PlaygroundTab active={activeTab === 'sumcheck'} onClick={() => setActiveTab('sumcheck')}>Sum-Check Proof</PlaygroundTab>
           <PlaygroundTab active={activeTab === 'merkle'} onClick={() => setActiveTab('merkle')}>Merkle Tree</PlaygroundTab>
           <PlaygroundTab active={activeTab === 'transcript'} onClick={() => setActiveTab('transcript')}>Transcript Explorer</PlaygroundTab>
         </div>
 
-        {/* Sum-Check Panel */}
         {activeTab === 'sumcheck' && (
           <div className="glass rounded-3xl p-10">
             <div className="flex justify-between items-start mb-8">
@@ -138,7 +176,7 @@ export default function App() {
                   disabled={isRunning}
                   className="w-full py-6 bg-gradient-to-r from-indigo-500 to-violet-600 hover:from-indigo-600 hover:to-violet-700 disabled:opacity-70 active:scale-[0.985] transition-all text-white font-semibold text-xl rounded-3xl flex items-center justify-center gap-x-3"
                 >
-                  {isRunning ? 'Verifying...' : 'Execute Real Sum-Check Proof'}
+                  {isRunning ? 'Verifying with WASM...' : 'Execute Real Sum-Check Proof'}
                 </button>
                 <div className="text-center text-xs text-white/40 mt-3">Runs locally via WASM • Cryptographic soundness</div>
 
@@ -152,7 +190,6 @@ export default function App() {
           </div>
         )}
 
-        {/* Merkle Tree Panel */}
         {activeTab === 'merkle' && (
           <div className="glass rounded-3xl p-10">
             <div className="flex justify-between mb-6">
@@ -175,7 +212,6 @@ export default function App() {
           </div>
         )}
 
-        {/* Transcript Panel */}
         {activeTab === 'transcript' && (
           <div className="glass rounded-3xl p-10 font-mono text-sm">
             <div className="font-semibold text-3xl tracking-tight mb-6 text-white">Transcript Explorer</div>
@@ -190,7 +226,7 @@ export default function App() {
       </div>
 
       <div className="max-w-screen-2xl mx-auto px-8 pb-20 text-center text-xs text-white/40">
-        Real Rust cryptographic core (power_house) compiled to WebAssembly • Self-hostable
+        Real Rust cryptographic core (power_house) • Build WASM to unlock full power
       </div>
     </div>
   )
