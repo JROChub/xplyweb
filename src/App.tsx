@@ -66,7 +66,7 @@ export default function App() {
 
     for (let r = 1; r <= totalRounds; r++) {
       setCurrentRound(r)
-      await new Promise(resolve => setTimeout(resolve, wasm ? 45 : 90))
+      await new Promise(resolve => setTimeout(resolve, wasm ? 40 : 80))
     }
 
     let resultText = ''
@@ -183,7 +183,7 @@ export default function App() {
 
         {!wasmReady && (
           <div className="mb-6 p-4 bg-amber-950/30 border border-amber-900/50 rounded-2xl text-sm text-amber-300">
-            <strong>Unlock real mode:</strong> Run <span className="font-mono bg-black/40 px-1.5 py-0.5 rounded">wasm-pack build --target web --out-dir src/wasm</span> then refresh to use full power_house capability.
+            <strong>Unlock real mode:</strong> Run <span className="font-mono bg-black/40 px-1.5 py-0.5 rounded">wasm-pack build --target web --out-dir src/wasm</span> then refresh to use full power_house proofs at scale.
           </div>
         )}
 
@@ -283,7 +283,7 @@ export default function App() {
       </section>
 
       <div className="max-w-screen-2xl mx-auto px-8 pb-16 text-xs text-white/40 text-center">
-        Continuing development • power_house large-scale proofs
+        Continuing • Focused on power_house large-scale verifiable computation
       </div>
     </div>
   )
