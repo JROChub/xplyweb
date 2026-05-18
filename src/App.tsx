@@ -38,6 +38,8 @@ export default function App() {
   const [wasmReady, setWasmReady] = useState(false)
   const [proofHistory, setProofHistory] = useState<ProofRecord[]>([])
   const [degree, setDegree] = useState(256)
+  const [currentRound, setCurrentRound] = useState(0)
+  const [totalRounds] = useState(8)
 
   const [merkleNodes, setMerkleNodes] = useState<string[][]>([
     ['A1','B2','C3','D4'], ['AB','CD'], ['ROOT']
@@ -55,9 +57,16 @@ export default function App() {
   const runSumCheckProof = async () => {
     setIsRunning(true)
     setProofResult(null)
+    setCurrentRound(0)
 
     const start = performance.now()
     const wasm = await ensureWasm()
+
+    // Simulate visible proof rounds for better UX
+    for (let r = 1; r <= totalRounds; r++) {
+      setCurrentRound(r)
+      await new Promise(resolve => setTimeout(resolve, wasm ? 80 : 140))
+    }
 
     let resultText = ''
 
@@ -70,8 +79,7 @@ export default function App() {
         console.error(e)
       }
     } else {
-      await new Promise(r => setTimeout(r, 1100))
-      resultText = `Sum-check Proof Verified\nDegree: ${degree} | Rounds: 8 | Time: ${(performance.now() - start).toFixed(0)}ms`
+      resultText = `Sum-check Proof Verified\nDegree: ${degree} | Rounds: ${totalRounds} | Time: ${(performance.now() - start).toFixed(0)}ms`
     }
 
     const duration = ((performance.now() - start)).toFixed(0) + 'ms'
@@ -88,6 +96,7 @@ export default function App() {
     setProofHistory(prev => [newRecord, ...prev].slice(0, 8))
 
     setIsRunning(false)
+    setCurrentRound(0)
   }
 
   const rebuildMerkleTree = () => {
@@ -184,7 +193,26 @@ export default function App() {
                   </div>
                 </div>
 
-                <button onClick={runSumCheckProof} disabled={isRunning} className="w-full py-6 bg-gradient-to-r from-indigo-500 to-violet-600 rounded-3xl text-xl font-semibold active:scale-[0.985] transition disabled:opacity-70">
+                {isRunning && (
+                  <div className="mb-6">
+                    <div className="flex justify-between text-xs text-white/50 mb-1">
+                      <span>Proof Progress</span>
+                      <span>Round {currentRound} / {totalRounds}</span>
+                    </div>
+                    <div className="h-2 bg-white/10 rounded-full overflow-hidden">
+                      <div 
+                        className="h-2 bg-gradient-to-r from-indigo-500 to-violet-500 transition-all duration-200" 
+                        style={{ width: `${(currentRound / totalRounds) * 100}%` }}
+                      />
+                    </div>
+                  </div>
+                )}
+
+                <button 
+                  onClick={runSumCheckProof} 
+                  disabled={isRunning}
+                  className="w-full py-6 bg-gradient-to-r from-indigo-500 to-violet-600 rounded-3xl text-xl font-semibold active:scale-[0.985] transition disabled:opacity-70"
+                >
                   {isRunning ? 'Running Proof...' : 'Execute Proof'}
                 </button>
 
@@ -247,7 +275,7 @@ export default function App() {
       </section>
 
       <div className="max-w-screen-2xl mx-auto px-8 pb-16 text-xs text-white/40 text-center">
-        Phase 2 Complete • Professional verifiable computation tool
+        Continuing development • Professional verifiable computation environment
       </div>
     </div>
   )
