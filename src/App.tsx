@@ -37,7 +37,7 @@ export default function App() {
   const [proofResult, setProofResult] = useState<string | null>(null)
   const [wasmReady, setWasmReady] = useState(false)
   const [proofHistory, setProofHistory] = useState<ProofRecord[]>([])
-  const [degree, setDegree] = useState(1024) // Higher default to showcase scale
+  const [degree, setDegree] = useState(1024)
   const [currentRound, setCurrentRound] = useState(0)
   const [totalRounds] = useState(8)
   const [lastProofWasReal, setLastProofWasReal] = useState(false)
@@ -66,7 +66,7 @@ export default function App() {
 
     for (let r = 1; r <= totalRounds; r++) {
       setCurrentRound(r)
-      await new Promise(resolve => setTimeout(resolve, wasm ? 60 : 120))
+      await new Promise(resolve => setTimeout(resolve, wasm ? 55 : 110))
     }
 
     let resultText = ''
@@ -74,9 +74,8 @@ export default function App() {
 
     if (wasm && wasm.generate_sumcheck_proof) {
       try {
-        // power_house is designed for large-scale proofs (sextillions+)
         const res = wasm.generate_sumcheck_proof(degree)
-        resultText = `Real WASM Proof from power_house\nDegree: ${degree} (supports massive scale)\n${res}`
+        resultText = `Real WASM Proof from power_house\nDegree: ${degree}\n${res}`
         isReal = true
       } catch (e) {
         resultText = 'WASM execution error. Check console.'
@@ -153,14 +152,14 @@ export default function App() {
           <div className="max-w-4xl">
             <div className="inline-flex items-center gap-x-2 px-4 py-1.5 rounded-3xl bg-white/5 border border-white/10 mb-8 text-sm">
               <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
-              <span className="font-medium tracking-wider text-emerald-400">REAL VERIFIABLE COMPUTATION • LARGE SCALE</span>
+              <span className="font-medium tracking-wider text-emerald-400">REAL VERIFIABLE COMPUTATION • MASSIVE SCALE</span>
             </div>
 
             <h1 className="font-display text-[88px] leading-[0.9] tracking-[-6px] font-semibold mb-6">
               Verifiable computation.<br />
               <span className="bg-gradient-to-r from-indigo-400 via-violet-400 to-fuchsia-400 bg-clip-text text-transparent">Native in the browser.</span>
             </h1>
-            <p className="max-w-xl text-2xl text-white/70">Powered by power_house — engineered for massive scale (sextillions+).</p>
+            <p className="max-w-xl text-2xl text-white/70">Powered by power_house — built for proofs at sextillion scale and beyond.</p>
           </div>
         </div>
       </header>
@@ -189,7 +188,7 @@ export default function App() {
                 <div className="flex justify-between mb-6">
                   <div>
                     <div className="font-semibold text-3xl tracking-tight">Sum-Check Proof</div>
-                    <div className="text-white/60 text-sm">Real cryptographic proof • power_house scales to sextillions</div>
+                    <div className="text-white/60 text-sm">Real cryptographic proof • power_house handles sextillion-scale polynomials</div>
                   </div>
                   <div className="flex items-center gap-x-3 text-sm">
                     <span className="text-white/50">Degree</span>
@@ -217,7 +216,7 @@ export default function App() {
                 {proofResult && (
                   <div className={`mt-6 p-6 rounded-2xl font-mono text-sm whitespace-pre-wrap border ${lastProofWasReal ? 'bg-emerald-950/40 border-emerald-900 text-emerald-300' : 'bg-black/40 border-white/10'}`}>
                     {proofResult}
-                    {lastProofWasReal && <div className="mt-3 text-xs text-emerald-400/70">✓ Verified with real Rust WASM (power_house)</div>}
+                    {lastProofWasReal && <div className="mt-3 text-xs text-emerald-400/70">✓ Executed with real power_house WASM</div>}
                   </div>
                 )}
               </div>
@@ -278,7 +277,7 @@ export default function App() {
       </section>
 
       <div className="max-w-screen-2xl mx-auto px-8 pb-16 text-xs text-white/40 text-center">
-        Continuing • power_house powers large-scale verifiable computation
+        Continuing development • Focused on power_house large-scale capability
       </div>
     </div>
   )
