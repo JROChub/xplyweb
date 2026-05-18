@@ -66,7 +66,7 @@ export default function App() {
 
     for (let r = 1; r <= totalRounds; r++) {
       setCurrentRound(r)
-      await new Promise(resolve => setTimeout(resolve, wasm ? 55 : 110))
+      await new Promise(resolve => setTimeout(resolve, wasm ? 50 : 100))
     }
 
     let resultText = ''
@@ -181,6 +181,12 @@ export default function App() {
           <PlaygroundTab active={activeTab==='transcript'} onClick={() => setActiveTab('transcript')}>Transcript</PlaygroundTab>
         </div>
 
+        {!wasmReady && (
+          <div className="mb-6 p-4 bg-amber-950/30 border border-amber-900/50 rounded-2xl text-sm text-amber-300">
+            <strong>Real mode available:</strong> Run <span className="font-mono bg-black/40 px-1.5 py-0.5 rounded">wasm-pack build --target web --out-dir src/wasm</span> then refresh to unlock full power_house proofs.
+          </div>
+        )}
+
         <div className="grid lg:grid-cols-12 gap-6">
           <div className="lg:col-span-8">
             {activeTab === 'sumcheck' && (
@@ -192,7 +198,7 @@ export default function App() {
                   </div>
                   <div className="flex items-center gap-x-3 text-sm">
                     <span className="text-white/50">Degree</span>
-                    <input type="range" min="64" max="4096" step="64" value={degree} onChange={e => setDegree(parseInt(e.target.value))} className="w-40" />
+                    <input type="range" min="64" max="4096" step="64" value={degree} onChange={e => setDegree(parseInt(e.target.value))} className="w-40" disabled={isRunning} />
                     <span className="font-mono w-14 text-right">{degree}</span>
                   </div>
                 </div>
@@ -277,7 +283,7 @@ export default function App() {
       </section>
 
       <div className="max-w-screen-2xl mx-auto px-8 pb-16 text-xs text-white/40 text-center">
-        Continuing development • Focused on power_house large-scale capability
+        Continuing • power_house large-scale verifiable computation
       </div>
     </div>
   )
