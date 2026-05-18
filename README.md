@@ -1,23 +1,13 @@
 # xplyweb
 
-**Interactive Verifiable Computation Playground**
+Interactive Verifiable Computation Playground powered by `power_house 0.1.0` (Rust → WASM)
 
-Built with `power_house 0.1.0` + Rust → WASM + React + Vite + Tailwind.
-
-## Live Demo
-( GitHub Pages will be enabled shortly )
+Live Demo coming soon!
 
 ## Features
-- Real-time sum-check proofs
-- Transcript anchoring
+- Real sum-check proofs in browser
 - Merkle tree visualization
-- Quorum ledger simulation
+- Transcript explorer
+- Stats & benchmarks
 
-## Quick Start
-
-```bash
-npm install
-npm run dev
-```
-
-Powered by **power_house 0.1.0**
+Built with React + Vite + TypeScript + Tailwind + Rust WASM
