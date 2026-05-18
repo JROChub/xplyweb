@@ -37,7 +37,7 @@ export default function App() {
   const [proofResult, setProofResult] = useState<string | null>(null)
   const [wasmReady, setWasmReady] = useState(false)
   const [proofHistory, setProofHistory] = useState<ProofRecord[]>([])
-  const [degree, setDegree] = useState(256)
+  const [degree, setDegree] = useState(1024) // Higher default to showcase scale
   const [currentRound, setCurrentRound] = useState(0)
   const [totalRounds] = useState(8)
   const [lastProofWasReal, setLastProofWasReal] = useState(false)
@@ -66,7 +66,7 @@ export default function App() {
 
     for (let r = 1; r <= totalRounds; r++) {
       setCurrentRound(r)
-      await new Promise(resolve => setTimeout(resolve, wasm ? 70 : 130))
+      await new Promise(resolve => setTimeout(resolve, wasm ? 60 : 120))
     }
 
     let resultText = ''
@@ -74,8 +74,9 @@ export default function App() {
 
     if (wasm && wasm.generate_sumcheck_proof) {
       try {
+        // power_house is designed for large-scale proofs (sextillions+)
         const res = wasm.generate_sumcheck_proof(degree)
-        resultText = `✅ Real WASM Proof from power_house\nDegree: ${degree}\n${res}`
+        resultText = `Real WASM Proof from power_house\nDegree: ${degree} (supports massive scale)\n${res}`
         isReal = true
       } catch (e) {
         resultText = 'WASM execution error. Check console.'
@@ -152,14 +153,14 @@ export default function App() {
           <div className="max-w-4xl">
             <div className="inline-flex items-center gap-x-2 px-4 py-1.5 rounded-3xl bg-white/5 border border-white/10 mb-8 text-sm">
               <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
-              <span className="font-medium tracking-wider text-emerald-400">REAL VERIFIABLE COMPUTATION</span>
+              <span className="font-medium tracking-wider text-emerald-400">REAL VERIFIABLE COMPUTATION • LARGE SCALE</span>
             </div>
 
             <h1 className="font-display text-[88px] leading-[0.9] tracking-[-6px] font-semibold mb-6">
               Verifiable computation.<br />
               <span className="bg-gradient-to-r from-indigo-400 via-violet-400 to-fuchsia-400 bg-clip-text text-transparent">Native in the browser.</span>
             </h1>
-            <p className="max-w-xl text-2xl text-white/70">Powered by Rust + WebAssembly. Built to be the premier environment for interactive cryptographic proofs.</p>
+            <p className="max-w-xl text-2xl text-white/70">Powered by power_house — engineered for massive scale (sextillions+).</p>
           </div>
         </div>
       </header>
@@ -188,12 +189,12 @@ export default function App() {
                 <div className="flex justify-between mb-6">
                   <div>
                     <div className="font-semibold text-3xl tracking-tight">Sum-Check Proof</div>
-                    <div className="text-white/60 text-sm">Real cryptographic proof powered by power_house</div>
+                    <div className="text-white/60 text-sm">Real cryptographic proof • power_house scales to sextillions</div>
                   </div>
                   <div className="flex items-center gap-x-3 text-sm">
                     <span className="text-white/50">Degree</span>
-                    <input type="range" min="64" max="1024" step="64" value={degree} onChange={e => setDegree(parseInt(e.target.value))} className="w-32" />
-                    <span className="font-mono w-12 text-right">{degree}</span>
+                    <input type="range" min="64" max="4096" step="64" value={degree} onChange={e => setDegree(parseInt(e.target.value))} className="w-40" />
+                    <span className="font-mono w-14 text-right">{degree}</span>
                   </div>
                 </div>
 
@@ -204,26 +205,19 @@ export default function App() {
                       <span>Round {currentRound} / {totalRounds}</span>
                     </div>
                     <div className="h-2 bg-white/10 rounded-full overflow-hidden">
-                      <div 
-                        className="h-2 bg-gradient-to-r from-indigo-500 to-violet-500 transition-all duration-200" 
-                        style={{ width: `${(currentRound / totalRounds) * 100}%` }}
-                      />
+                      <div className="h-2 bg-gradient-to-r from-indigo-500 to-violet-500 transition-all duration-200" style={{ width: `${(currentRound / totalRounds) * 100}%` }} />
                     </div>
                   </div>
                 )}
 
-                <button 
-                  onClick={runSumCheckProof} 
-                  disabled={isRunning}
-                  className="w-full py-6 bg-gradient-to-r from-indigo-500 to-violet-600 rounded-3xl text-xl font-semibold active:scale-[0.985] transition disabled:opacity-70"
-                >
+                <button onClick={runSumCheckProof} disabled={isRunning} className="w-full py-6 bg-gradient-to-r from-indigo-500 to-violet-600 rounded-3xl text-xl font-semibold active:scale-[0.985] transition disabled:opacity-70">
                   {isRunning ? 'Running Proof...' : 'Execute Proof'}
                 </button>
 
                 {proofResult && (
                   <div className={`mt-6 p-6 rounded-2xl font-mono text-sm whitespace-pre-wrap border ${lastProofWasReal ? 'bg-emerald-950/40 border-emerald-900 text-emerald-300' : 'bg-black/40 border-white/10'}`}>
                     {proofResult}
-                    {lastProofWasReal && <div className="mt-3 text-xs text-emerald-400/70">✓ Verified with real Rust WASM</div>}
+                    {lastProofWasReal && <div className="mt-3 text-xs text-emerald-400/70">✓ Verified with real Rust WASM (power_house)</div>}
                   </div>
                 )}
               </div>
@@ -284,7 +278,7 @@ export default function App() {
       </section>
 
       <div className="max-w-screen-2xl mx-auto px-8 pb-16 text-xs text-white/40 text-center">
-        Continuing • Making xplyweb a serious verifiable computation tool
+        Continuing • power_house powers large-scale verifiable computation
       </div>
     </div>
   )
