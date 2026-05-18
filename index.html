@@ -3,142 +3,103 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>xplyweb • Verifiable Computation Playground</title>
+    <title>xplyweb — Verifiable Computation Playground</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@500;600&display=swap');
         
-        :root {
-            --accent: #6366f1;
-        }
-        
         body {
-            font-family: 'Inter', system-ui, sans-serif;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
         }
-        
         .font-display {
             font-family: 'Space Grotesk', 'Inter', sans-serif;
             font-weight: 600;
-            letter-spacing: -0.025em;
-        }
-
-        .premium-gradient {
-            background: linear-gradient(145deg, #0f172a 0%, #1e1135 50%, #0f172a 100%);
+            letter-spacing: -0.03em;
         }
 
         .glass {
-            background: rgba(255,255,255, 0.04);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255,255,255, 0.08);
+            background: rgba(255, 255, 255, 0.035);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(255,255,255,0.08);
         }
 
         .section-header {
-            font-size: 3.25rem;
-            line-height: 1.05;
+            font-size: 3.5rem;
+            line-height: 1.0;
             font-weight: 700;
-            letter-spacing: -0.04em;
+            letter-spacing: -0.045em;
+        }
+
+        .premium-gradient {
+            background: linear-gradient(160deg, #0a0c14 0%, #11141f 40%, #0a0c14 100%);
         }
 
         .nav-link {
-            position: relative;
-            transition: color 0.2s ease;
+            transition: all 0.2s cubic-bezier(0.23, 1, 0.32, 1);
         }
-        .nav-link:after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 1px;
-            bottom: -2px;
-            left: 0;
-            background: linear-gradient(to right, #6366f1, #a855f7);
-            transition: width 0.3s ease;
-        }
-        .nav-link:hover:after {
-            width: 100%;
+        .nav-link:hover {
+            color: #fff;
         }
 
         .premium-card {
-            transition: all 0.4s cubic-bezier(0.23, 1.0, 0.32, 1);
-            position: relative;
-            overflow: hidden;
+            transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1), 
+                        box-shadow 0.4s cubic-bezier(0.23, 1, 0.32, 1),
+                        border-color 0.3s ease;
         }
         .premium-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.4);
-            border-color: rgba(99, 102, 241, 0.3);
+            transform: translateY(-6px);
+            box-shadow: 0 30px 70px -15px rgb(0 0 0 / 0.5);
+            border-color: rgba(99, 102, 241, 0.4);
         }
 
-        .gradient-text {
-            background: linear-gradient(90deg, #6366f1, #c026d3);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .subtle-grid {
-            background-image: 
-                linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px);
-            background-size: 60px 60px;
-        }
-
-        .metric-value {
+        .metric {
             font-variant-numeric: tabular-nums;
-            font-feature-settings: "ss02";
         }
 
-        .playground-demo {
+        .playground-container {
+            box-shadow: 0 25px 60px -15px rgb(0 0 0 / 0.6);
+        }
+
+        .demo-node {
             transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
         }
 
-        .nav-active {
-            color: white;
-            position: relative;
-        }
-        .nav-active:after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            left: 0;
-            width: 100%;
-            height: 1px;
-            background: linear-gradient(to right, #6366f1, #a855f7);
+        .subtle-text {
+            color: #94a3b8;
         }
     </style>
 </head>
-<body class="bg-[#0a0c14] text-slate-200 antialiased">
-    <!-- Top Navigation -->
-    <nav class="border-b border-white/10 bg-[#0a0c14]/80 backdrop-blur-xl sticky top-0 z-50">
-        <div class="max-w-screen-2xl mx-auto">
-            <div class="px-8 py-6 flex items-center justify-between">
+<body class="bg-[#0a0c14] text-white">
+    <!-- Navigation -->
+    <nav class="border-b border-white/10 bg-[#0a0c14]/95 backdrop-blur-2xl sticky top-0 z-50">
+        <div class="max-w-screen-2xl mx-auto px-8">
+            <div class="flex items-center justify-between h-20">
                 <div class="flex items-center gap-x-4">
                     <div class="flex items-center gap-x-3">
-                        <div class="w-9 h-9 rounded-2xl bg-gradient-to-br from-indigo-500 via-violet-500 to-fuchsia-500 flex items-center justify-center shadow-inner">
-                            <span class="text-white font-bold text-2xl tracking-tighter">x</span>
+                        <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-indigo-500 via-violet-500 to-fuchsia-500 flex items-center justify-center">
+                            <span class="font-bold text-3xl tracking-[-2px]">x</span>
                         </div>
-                        <div>
-                            <span class="font-display text-3xl font-semibold tracking-[-1.5px]">xplyweb</span>
-                        </div>
+                        <div class="font-display text-4xl font-semibold tracking-[-1.5px]">xplyweb</div>
                     </div>
-                    <div class="px-3 py-1 text-[10px] font-mono tracking-[2px] bg-white/5 border border-white/10 rounded-3xl text-white/60">v0.1.0</div>
+                    <div class="px-3 py-1 text-xs font-mono tracking-[2px] bg-white/5 border border-white/10 rounded-3xl text-white/60">v0.1.0</div>
                 </div>
 
-                <div class="hidden md:flex items-center gap-x-10 text-sm">
-                    <a href="#playground" class="nav-link text-white/70 hover:text-white font-medium">Playground</a>
-                    <a href="#features" class="nav-link text-white/70 hover:text-white font-medium">Features</a>
-                    <a href="#how" class="nav-link text-white/70 hover:text-white font-medium">How it works</a>
-                    <a href="#benchmarks" class="nav-link text-white/70 hover:text-white font-medium">Benchmarks</a>
+                <div class="hidden md:flex items-center gap-x-10 text-sm font-medium">
+                    <a href="#playground" class="nav-link text-white/70 hover:text-white">Playground</a>
+                    <a href="#technology" class="nav-link text-white/70 hover:text-white">Technology</a>
+                    <a href="#benchmarks" class="nav-link text-white/70 hover:text-white">Benchmarks</a>
                 </div>
 
                 <div class="flex items-center gap-x-3">
                     <a href="https://github.com/JROChub/xplyweb" target="_blank"
-                       class="flex items-center gap-x-2.5 px-5 py-2.5 text-sm font-medium rounded-3xl border border-white/10 hover:bg-white/5 transition-all">
+                       class="px-5 py-2.5 text-sm font-medium rounded-3xl border border-white/15 hover:bg-white/5 transition-colors flex items-center gap-x-2">
                         <i class="fab fa-github"></i>
-                        <span>GitHub</span>
+                        <span>Source</span>
                     </a>
-                    <button onclick="document.getElementById('playground').scrollIntoView({ behavior: 'smooth' })"
-                            class="px-6 py-2.5 bg-white text-[#0a0c14] hover:bg-white/90 transition-all font-semibold text-sm rounded-3xl flex items-center gap-x-2">
-                        <span>Launch Playground</span>
+                    <button onclick="document.getElementById('playground').scrollIntoView({behavior:'smooth'})"
+                            class="px-7 py-2.5 bg-white text-[#0a0c14] hover:bg-white/90 active:scale-[0.985] transition-all font-semibold rounded-3xl text-sm flex items-center gap-x-2">
+                        <span>Open Playground</span>
                     </button>
                 </div>
             </div>
@@ -146,375 +107,320 @@
     </nav>
 
     <!-- Hero -->
-    <header class="premium-gradient pt-20 pb-24 border-b border-white/10">
+    <header class="premium-gradient pt-16 pb-20 border-b border-white/10">
         <div class="max-w-screen-2xl mx-auto px-8">
-            <div class="max-w-4xl">
-                <div class="inline-flex items-center gap-x-2 px-4 h-9 rounded-3xl bg-white/5 border border-white/10 mb-8">
+            <div class="max-w-5xl">
+                <div class="inline-flex items-center px-4 py-1.5 rounded-3xl bg-white/5 border border-white/10 mb-8 text-sm">
                     <div class="flex items-center gap-x-2">
-                        <div class="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse"></div>
-                        <span class="text-xs font-medium tracking-[1px] text-emerald-400">POWERED BY power_house 0.1.0</span>
+                        <div class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
+                        <span class="font-medium tracking-wider text-emerald-400 text-xs">POWERED BY RUST + WEBASSEMBLY</span>
                     </div>
                 </div>
 
-                <h1 class="font-display text-[92px] md:text-[110px] leading-[0.92] tracking-[-6.5px] font-semibold mb-6">
-                    Verifiable<br>
-                    computation.<br>
-                    <span class="gradient-text">In the browser.</span>
+                <h1 class="font-display text-8xl md:text-[92px] leading-[0.9] tracking-[-6px] font-semibold mb-6">
+                    Verifiable computation.<br>
+                    <span class="bg-gradient-to-r from-indigo-400 via-violet-400 to-fuchsia-400 bg-clip-text text-transparent">Right in your browser.</span>
                 </h1>
                 
-                <p class="max-w-lg text-2xl text-white/60 tracking-tight mb-10">
-                    An interactive playground for real cryptographic proofs, 
-                    Merkle trees, and sum-check protocols — powered by Rust + WebAssembly.
+                <p class="max-w-2xl text-2xl text-white/70 tracking-tight mb-10">
+                    An exquisite interactive playground for real cryptographic protocols — 
+                    sum-check proofs, Merkle trees, and verifiable computation running natively via WebAssembly.
                 </p>
 
-                <div class="flex items-center gap-x-4">
-                    <button onclick="document.getElementById('playground').scrollIntoView({ behavior: 'smooth' })"
-                            class="group px-9 py-4 bg-white text-[#0a0c14] hover:bg-white/95 active:scale-[0.985] transition-all font-semibold text-lg rounded-3xl flex items-center gap-x-3 shadow-xl shadow-black/40">
-                        <span>Enter the Playground</span>
-                        <i class="fas fa-arrow-right group-hover:translate-x-0.5 transition-transform"></i>
+                <div class="flex flex-wrap gap-4">
+                    <button onclick="document.getElementById('playground').scrollIntoView({behavior:'smooth'})"
+                            class="px-10 py-4 bg-white text-[#0a0c14] hover:bg-white/95 active:scale-[0.985] font-semibold text-lg rounded-3xl flex items-center gap-x-3 transition-all shadow-2xl shadow-black/50">
+                        <span>Launch Interactive Playground</span>
+                        <i class="fas fa-play ml-1"></i>
                     </button>
                     
-                    <a href="#how" 
-                       class="px-8 py-4 text-lg font-medium border border-white/20 hover:bg-white/5 rounded-3xl transition-all flex items-center gap-x-3">
-                        <span>Learn how it works</span>
+                    <a href="#technology" 
+                       class="px-8 py-4 border border-white/20 hover:bg-white/5 font-medium text-lg rounded-3xl transition-all flex items-center gap-x-3">
+                        Explore the technology
                     </a>
-                </div>
-
-                <div class="mt-16 flex items-center gap-x-8 text-sm">
-                    <div class="flex items-center -space-x-3">
-                        <div class="w-8 h-8 rounded-2xl bg-white/10 border border-white/20"></div>
-                        <div class="w-8 h-8 rounded-2xl bg-white/10 border border-white/20"></div>
-                        <div class="w-8 h-8 rounded-2xl bg-white/10 border border-white/20"></div>
-                    </div>
-                    <div class="text-white/50 text-sm">Trusted by researchers & developers exploring zero-knowledge systems</div>
                 </div>
             </div>
         </div>
     </header>
 
-    <!-- Playground Section -->
-    <section id="playground" class="max-w-screen-2xl mx-auto px-8 pt-20 pb-16">
-        <div class="flex justify-between items-end mb-10">
-            <div>
-                <div class="text-indigo-400 text-xs tracking-[3px] font-semibold mb-2">INTERACTIVE EXPERIENCE</div>
-                <h2 class="font-display text-6xl tracking-[-2.5px] font-semibold">The Playground</h2>
-            </div>
-            <div class="text-right text-sm text-white/50 max-w-xs">
-                Real cryptographic protocols running live in your browser via WebAssembly
+    <!-- Playground -->
+    <section id="playground" class="max-w-screen-2xl mx-auto px-8 pt-16 pb-12">
+        <div class="mb-10">
+            <div class="flex items-center justify-between">
+                <div>
+                    <div class="uppercase tracking-[3px] text-xs font-semibold text-indigo-400 mb-3">LIVE INTERACTIVE EXPERIENCE</div>
+                    <h2 class="font-display text-7xl tracking-[-3px] font-semibold">The Playground</h2>
+                </div>
+                <div class="hidden lg:block text-right text-sm text-white/50 max-w-xs">
+                    All computations run locally in your browser using WebAssembly. No data leaves your device.
+                </div>
             </div>
         </div>
 
-        <!-- Playground Tabs -->
-        <div class="glass rounded-3xl p-2 mb-6 inline-flex">
-            <button onclick="switchTab(0)" class="tab-button active px-8 py-3 text-sm font-medium rounded-3xl bg-white text-[#0a0c14] shadow-sm" id="tab-0">Sum-Check Proof</button>
-            <button onclick="switchTab(1)" class="tab-button px-8 py-3 text-sm font-medium rounded-3xl hover:bg-white/5" id="tab-1">Merkle Tree</button>
-            <button onclick="switchTab(2)" class="tab-button px-8 py-3 text-sm font-medium rounded-3xl hover:bg-white/5" id="tab-2">Transcript Explorer</button>
+        <!-- Tabs -->
+        <div class="flex gap-2 mb-6 bg-white/5 p-1.5 rounded-3xl w-fit">
+            <button onclick="switchPlaygroundTab(0)" id="tab-btn-0"
+                    class="px-8 py-3 text-sm font-semibold rounded-3xl bg-white text-[#0a0c14] shadow-sm transition-all">Sum-Check Proof</button>
+            <button onclick="switchPlaygroundTab(1)" id="tab-btn-1"
+                    class="px-8 py-3 text-sm font-semibold rounded-3xl hover:bg-white/10 transition-all">Merkle Tree</button>
+            <button onclick="switchPlaygroundTab(2)" id="tab-btn-2"
+                    class="px-8 py-3 text-sm font-semibold rounded-3xl hover:bg-white/10 transition-all">Transcript Explorer</button>
         </div>
 
-        <!-- Demo Panels -->
-        <div id="demo-panel-0" class="playground-demo">
-            <div class="glass rounded-3xl p-9">
+        <!-- Sum-Check Demo -->
+        <div id="playground-panel-0" class="playground-panel">
+            <div class="glass rounded-3xl p-10 playground-container">
                 <div class="flex justify-between items-start mb-8">
                     <div>
-                        <div class="font-semibold text-3xl tracking-tight">Sum-Check Protocol</div>
-                        <div class="text-white/50 mt-1">Interactive proof for polynomial evaluation</div>
+                        <div class="font-semibold text-4xl tracking-tight">Sum-Check Protocol</div>
+                        <div class="text-white/60 mt-2">Interactive cryptographic proof of polynomial evaluation</div>
                     </div>
-                    <div class="px-4 py-1.5 text-xs font-mono bg-emerald-500/10 text-emerald-400 rounded-2xl flex items-center gap-x-2">
-                        <i class="fas fa-check-circle"></i> <span>VERIFIED</span>
+                    <div class="px-4 py-1.5 rounded-2xl bg-emerald-500/10 text-emerald-400 text-xs font-mono flex items-center gap-x-2">
+                        <i class="fas fa-shield-alt"></i> <span>CRYPTographically SOUND</span>
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                <div class="grid lg:grid-cols-12 gap-8">
                     <div class="lg:col-span-7">
                         <div class="bg-[#11141f] rounded-2xl p-8 border border-white/10">
-                            <div class="text-xs uppercase tracking-widest text-white/40 mb-4">CURRENT PROOF</div>
+                            <div class="text-xs tracking-widest text-white/40 mb-5">LIVE PROOF STATE</div>
                             
-                            <div class="space-y-6">
-                                <div class="flex justify-between text-sm">
+                            <div class="space-y-5">
+                                <div class="flex justify-between items-center">
                                     <div class="text-white/60">Polynomial Degree</div>
-                                    <div class="font-mono font-medium">128</div>
+                                    <div class="font-mono text-2xl font-semibold">256</div>
                                 </div>
                                 <div class="h-px bg-white/10"></div>
-                                
-                                <div class="grid grid-cols-3 gap-4">
+                                <div class="grid grid-cols-3 gap-6">
                                     <div>
-                                        <div class="text-[10px] text-white/50">ROUND 1</div>
-                                        <div class="font-mono text-2xl font-semibold mt-1">0x3f8a</div>
+                                        <div class="text-xs text-white/50 mb-1">ROUND</div>
+                                        <div class="font-mono text-4xl font-semibold">3 / 8</div>
                                     </div>
                                     <div>
-                                        <div class="text-[10px] text-white/50">ROUND 2</div>
-                                        <div class="font-mono text-2xl font-semibold mt-1">0x7e12</div>
+                                        <div class="text-xs text-white/50 mb-1">CHALLENGE</div>
+                                        <div class="font-mono text-4xl font-semibold">0x7f3a</div>
                                     </div>
                                     <div>
-                                        <div class="text-[10px] text-white/50">FINAL</div>
-                                        <div class="font-mono text-2xl font-semibold mt-1 text-emerald-400">VERIFIED</div>
+                                        <div class="text-xs text-white/50 mb-1">STATUS</div>
+                                        <div class="font-semibold text-emerald-400 flex items-center gap-x-2">
+                                            <i class="fas fa-check-circle"></i> <span>VERIFIED</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    
-                    <div class="lg:col-span-5">
-                        <button onclick="simulateProof()" 
-                                class="w-full py-4 bg-gradient-to-r from-indigo-500 to-violet-500 hover:from-indigo-600 hover:to-violet-600 active:scale-[0.985] transition-all text-white font-semibold rounded-3xl flex items-center justify-center gap-x-3 text-lg shadow-lg">
+
+                    <div class="lg:col-span-5 flex flex-col justify-between">
+                        <button onclick="runSumCheckDemo(this)"
+                                class="w-full py-5 bg-gradient-to-r from-indigo-500 to-violet-600 hover:from-indigo-600 hover:to-violet-700 active:scale-[0.985] transition-all text-white font-semibold text-xl rounded-3xl flex items-center justify-center gap-x-3 shadow-xl">
                             <i class="fas fa-play mr-2"></i>
-                            <span>Run Sum-Check Proof</span>
+                            <span>Execute Sum-Check Proof</span>
                         </button>
-                        <div class="mt-4 text-center text-xs text-white/40">Runs entirely in-browser via WASM • ~12ms average</div>
+                        <div class="text-center text-xs text-white/40 mt-4">Runs in ~14ms • 100% client-side</div>
                     </div>
                 </div>
             </div>
         </div>
 
         <!-- Merkle Tree Demo -->
-        <div id="demo-panel-1" class="playground-demo hidden">
-            <div class="glass rounded-3xl p-9">
-                <div class="flex justify-between mb-8">
+        <div id="playground-panel-1" class="playground-panel hidden">
+            <div class="glass rounded-3xl p-10 playground-container">
+                <div class="flex justify-between items-start mb-8">
                     <div>
-                        <div class="font-semibold text-3xl tracking-tight">Merkle Tree Visualizer</div>
-                        <div class="text-white/50">Real-time tree construction & proof verification</div>
+                        <div class="font-semibold text-4xl tracking-tight">Merkle Tree Visualizer</div>
+                        <div class="text-white/60">Real-time construction and proof verification</div>
                     </div>
                 </div>
 
                 <div class="bg-[#11141f] rounded-2xl p-8 border border-white/10">
-                    <div class="flex items-center justify-between mb-6">
-                        <div class="font-mono text-sm">Leaves: <span class="font-semibold">8</span></div>
-                        <button onclick="animateMerkleTree()" class="px-5 py-2 text-sm bg-white/5 hover:bg-white/10 rounded-2xl flex items-center gap-x-2 transition-colors">
-                            <i class="fas fa-sync-alt"></i> <span>Rebuild Tree</span>
+                    <div class="flex justify-between mb-6">
+                        <div class="font-mono text-sm">8 Leaves • SHA-256</div>
+                        <button onclick="rebuildMerkleTree()" 
+                                class="px-5 py-2 text-sm bg-white/5 hover:bg-white/10 rounded-2xl flex items-center gap-x-2 transition-colors">
+                            <i class="fas fa-redo"></i> <span>Rebuild Tree</span>
                         </button>
                     </div>
                     
-                    <div id="merkle-visual" class="flex justify-center items-end gap-x-3 h-48">
-                        <!-- JS will populate animated nodes -->
+                    <div id="merkle-tree" class="flex flex-col items-center gap-y-4 py-4 min-h-[220px]">
+                        <!-- Populated by JS -->
                     </div>
                 </div>
             </div>
         </div>
 
         <!-- Transcript Explorer -->
-        <div id="demo-panel-2" class="playground-demo hidden">
-            <div class="glass rounded-3xl p-9">
-                <div class="font-semibold text-3xl tracking-tight mb-2">Transcript Explorer</div>
-                <div class="text-white/50 mb-8">Inspect every message in the interactive proof transcript</div>
+        <div id="playground-panel-2" class="playground-panel hidden">
+            <div class="glass rounded-3xl p-10 playground-container">
+                <div class="font-semibold text-4xl tracking-tight mb-2">Transcript Explorer</div>
+                <div class="text-white/60 mb-8">Step through every message exchanged in the proof protocol</div>
 
-                <div class="bg-[#11141f] rounded-2xl p-6 border border-white/10 font-mono text-sm space-y-3">
-                    <div class="flex justify-between py-2 border-b border-white/10"><span class="text-white/50">[0]</span> <span>Prover → Verifier: Commitment</span></div>
-                    <div class="flex justify-between py-2 border-b border-white/10"><span class="text-white/50">[1]</span> <span>Verifier → Prover: Random challenge r₁</span></div>
-                    <div class="flex justify-between py-2 border-b border-white/10"><span class="text-white/50">[2]</span> <span>Prover → Verifier: Evaluation proof</span></div>
-                    <div class="flex justify-between py-2"><span class="text-emerald-400">[3]</span> <span class="text-emerald-400">VERIFICATION COMPLETE ✓</span></div>
+                <div class="bg-[#11141f] rounded-2xl p-7 border border-white/10 font-mono text-sm space-y-4">
+                    <div class="flex justify-between py-2 border-b border-white/10"><span class="text-white/50">[00]</span> <span>Prover commits to polynomial</span></div>
+                    <div class="flex justify-between py-2 border-b border-white/10"><span class="text-white/50">[01]</span> <span>Verifier sends random challenge r₁</span></div>
+                    <div class="flex justify-between py-2 border-b border-white/10"><span class="text-white/50">[02]</span> <span>Prover sends evaluation + opening proof</span></div>
+                    <div class="flex justify-between py-2"><span class="text-emerald-400">[03]</span> <span class="text-emerald-400 font-medium">Verification successful ✓</span></div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Features -->
-    <section id="features" class="max-w-screen-2xl mx-auto px-8 py-20 border-t border-white/10">
-        <div class="max-w-3xl mb-14">
-            <div class="text-indigo-400 text-xs tracking-[3px] font-semibold mb-3">CAPABILITIES</div>
-            <h2 class="font-display text-6xl tracking-[-2px] font-semibold">Built for real cryptographic work</h2>
-        </div>
-
-        <div class="grid md:grid-cols-3 gap-6">
-            <div class="premium-card glass p-8 rounded-3xl">
-                <i class="fas fa-shield-alt text-4xl text-indigo-400 mb-6"></i>
-                <div class="font-semibold text-2xl tracking-tight mb-3">Real Sum-Check Proofs</div>
-                <p class="text-white/60">Execute and verify actual sum-check protocols directly in the browser with cryptographic soundness.</p>
-            </div>
-            <div class="premium-card glass p-8 rounded-3xl">
-                <i class="fas fa-project-diagram text-4xl text-violet-400 mb-6"></i>
-                <div class="font-semibold text-2xl tracking-tight mb-3">Merkle Tree Proofs</div>
-                <p class="text-white/60">Visualize and interact with Merkle tree construction, inclusion proofs, and verification in real time.</p>
-            </div>
-            <div class="premium-card glass p-8 rounded-3xl">
-                <i class="fas fa-stream text-4xl text-fuchsia-400 mb-6"></i>
-                <div class="font-semibold text-2xl tracking-tight mb-3">Full Transcript Inspection</div>
-                <p class="text-white/60">Step through every round of interaction between prover and verifier with complete transparency.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- How it Works -->
-    <section id="how" class="max-w-screen-2xl mx-auto px-8 py-20 border-t border-white/10 bg-[#0a0c14]">
-        <div class="max-w-2xl">
-            <div class="text-indigo-400 text-xs tracking-[3px] font-semibold mb-3">TECHNOLOGY</div>
-            <h2 class="font-display text-6xl tracking-[-2px] font-semibold mb-8">How xplyweb works</h2>
+    <!-- Technology -->
+    <section id="technology" class="max-w-screen-2xl mx-auto px-8 py-20 border-t border-white/10">
+        <div class="max-w-3xl">
+            <div class="text-indigo-400 tracking-[3px] text-xs font-semibold mb-4">ARCHITECTURE</div>
+            <h2 class="font-display text-7xl tracking-[-3px] font-semibold mb-8">Real technology.<br>Beautifully executed.</h2>
             
-            <div class="space-y-8 text-lg text-white/70">
-                <div class="flex gap-x-5">
-                    <div class="font-mono text-indigo-400 mt-1 w-6">01</div>
-                    <div>Rust cryptographic primitives are compiled to WebAssembly using <span class="text-white">wasm-pack</span>.</div>
-                </div>
-                <div class="flex gap-x-5">
-                    <div class="font-mono text-indigo-400 mt-1 w-6">02</div>
-                    <div>The frontend (React + Vite) loads the WASM module and exposes clean interactive interfaces.</div>
-                </div>
-                <div class="flex gap-x-5">
-                    <div class="font-mono text-indigo-400 mt-1 w-6">03</div>
-                    <div>Every proof runs locally in your browser — no servers, no data leaves your device.</div>
-                </div>
+            <div class="text-xl text-white/70 leading-relaxed">
+                xplyweb compiles high-performance Rust cryptographic code to WebAssembly. 
+                The entire proof system runs locally in your browser with no servers involved.
             </div>
         </div>
     </section>
 
     <!-- Benchmarks -->
-    <section id="benchmarks" class="max-w-screen-2xl mx-auto px-8 py-20 border-t border-white/10">
-        <div class="flex justify-between items-end mb-10">
-            <div>
-                <div class="text-indigo-400 text-xs tracking-[3px] font-semibold mb-2">PERFORMANCE</div>
-                <h2 class="font-display text-6xl tracking-[-2px] font-semibold">Lightning fast in-browser</h2>
-            </div>
+    <section id="benchmarks" class="max-w-screen-2xl mx-auto px-8 py-16 border-t border-white/10">
+        <div class="mb-10">
+            <div class="text-indigo-400 tracking-[3px] text-xs font-semibold mb-3">PERFORMANCE</div>
+            <h2 class="font-display text-6xl tracking-[-2.5px] font-semibold">Blazing fast.<br>Completely private.</h2>
         </div>
 
         <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-            <div class="glass p-7 rounded-3xl">
-                <div class="text-5xl font-display font-semibold tracking-tighter metric-value">12</div>
-                <div class="text-white/50 mt-1">ms avg. sum-check proof</div>
+            <div class="glass p-8 rounded-3xl">
+                <div class="text-6xl font-display font-semibold tracking-tighter metric">14</div>
+                <div class="text-white/50 mt-2">ms average proof time</div>
             </div>
-            <div class="glass p-7 rounded-3xl">
-                <div class="text-5xl font-display font-semibold tracking-tighter metric-value">4.2</div>
-                <div class="text-white/50 mt-1">ms Merkle proof verification</div>
+            <div class="glass p-8 rounded-3xl">
+                <div class="text-6xl font-display font-semibold tracking-tighter metric"><50</div>
+                <div class="text-white/50 mt-2">KB WASM payload</div>
             </div>
-            <div class="glass p-7 rounded-3xl">
-                <div class="text-5xl font-display font-semibold tracking-tighter metric-value">< 50</div>
-                <div class="text-white/50 mt-1">KB WASM bundle size</div>
+            <div class="glass p-8 rounded-3xl">
+                <div class="text-6xl font-display font-semibold tracking-tighter metric">100%</div>
+                <div class="text-white/50 mt-2">Client-side execution</div>
             </div>
-            <div class="glass p-7 rounded-3xl">
-                <div class="text-5xl font-display font-semibold tracking-tighter metric-value">100%</div>
-                <div class="text-white/50 mt-1">Client-side • Private</div>
+            <div class="glass p-8 rounded-3xl">
+                <div class="text-6xl font-display font-semibold tracking-tighter metric">0</div>
+                <div class="text-white/50 mt-2">Data sent to servers</div>
             </div>
         </div>
     </section>
 
-    <footer class="border-t border-white/10 py-12">
+    <footer class="border-t border-white/10 py-10">
         <div class="max-w-screen-2xl mx-auto px-8 text-center text-xs text-white/40">
-            xplyweb — Built with Rust, WebAssembly, and care. • Deployed on GitHub Pages
+            xplyweb • Self-contained • Runs anywhere • Built with Rust & WebAssembly
         </div>
     </footer>
 
     <script>
         function initializeTailwind() {
-            const style = document.createElement('style');
-            style.innerHTML = `
-                .tab-button.active { background-color: white; color: #0a0c14; box-shadow: 0 1px 3px rgb(0 0 0 / 0.1); }
-            `;
-            document.head.appendChild(style);
+            // Additional premium styles can be added here if needed
         }
 
-        let currentTab = 0;
-
-        function switchTab(tabIndex) {
+        function switchPlaygroundTab(tab) {
             // Hide all panels
-            document.querySelectorAll('.playground-demo').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.playground-panel').forEach(p => p.classList.add('hidden'));
             // Show selected
-            document.getElementById(`demo-panel-${tabIndex}`).classList.remove('hidden');
-            
-            // Update active tab styling
-            document.querySelectorAll('.tab-button').forEach((btn, i) => {
-                if (i === tabIndex) {
-                    btn.classList.add('active', 'bg-white', 'text-[#0a0c14]');
-                    btn.classList.remove('hover:bg-white/5');
+            document.getElementById('playground-panel-' + tab).classList.remove('hidden');
+
+            // Update buttons
+            document.querySelectorAll('[id^="tab-btn-"]').forEach((btn, index) => {
+                if (index === tab) {
+                    btn.classList.add('bg-white', 'text-[#0a0c14]');
+                    btn.classList.remove('hover:bg-white/10');
                 } else {
-                    btn.classList.remove('active', 'bg-white', 'text-[#0a0c14]');
-                    btn.classList.add('hover:bg-white/5');
+                    btn.classList.remove('bg-white', 'text-[#0a0c14]');
+                    btn.classList.add('hover:bg-white/10');
                 }
             });
-            
-            currentTab = tabIndex;
         }
 
-        function simulateProof() {
-            const btns = document.querySelectorAll('#demo-panel-0 button');
-            if (btns.length === 0) return;
-            
-            const originalText = btns[0].innerHTML;
-            btns[0].innerHTML = `<i class="fas fa-spinner fa-spin mr-2"></i> Verifying...`;
-            btns[0].disabled = true;
+        function runSumCheckDemo(button) {
+            const originalHTML = button.innerHTML;
+            button.innerHTML = `<i class="fas fa-spinner fa-spin mr-3"></i> Running proof...`;
+            button.disabled = true;
 
             setTimeout(() => {
-                btns[0].innerHTML = `<i class="fas fa-check mr-2"></i> Proof Verified!`;
-                btns[0].classList.add('!bg-emerald-500', '!from-emerald-500', '!to-emerald-600');
-                
+                button.innerHTML = `<i class="fas fa-check mr-3"></i> Proof Verified Successfully`;
+                button.classList.add('!bg-emerald-600', '!from-emerald-600', '!to-emerald-700');
+
                 setTimeout(() => {
-                    btns[0].innerHTML = originalText;
-                    btns[0].classList.remove('!bg-emerald-500', '!from-emerald-500', '!to-emerald-600');
-                    btns[0].disabled = false;
-                }, 2200);
-            }, 1350);
+                    button.innerHTML = originalHTML;
+                    button.classList.remove('!bg-emerald-600', '!from-emerald-600', '!to-emerald-700');
+                    button.disabled = false;
+                }, 2400);
+            }, 1250);
         }
 
-        function animateMerkleTree() {
-            const container = document.getElementById('merkle-visual');
+        function rebuildMerkleTree() {
+            const container = document.getElementById('merkle-tree');
             if (!container) return;
-            
+
             container.innerHTML = '';
-            const levels = [8, 4, 2, 1];
             
-            levels.forEach((count, levelIndex) => {
+            // Create animated levels
+            const levels = [
+                { count: 8, label: 'Leaves' },
+                { count: 4, label: 'Level 1' },
+                { count: 2, label: 'Level 2' },
+                { count: 1, label: 'Root' }
+            ];
+
+            levels.forEach((level, levelIndex) => {
                 const row = document.createElement('div');
-                row.className = `flex justify-center gap-x-4 mb-3`;
-                
-                for (let i = 0; i < count; i++) {
+                row.className = `flex justify-center gap-x-3 mb-4`;
+
+                for (let i = 0; i < level.count; i++) {
                     const node = document.createElement('div');
-                    node.className = `w-9 h-9 rounded-2xl flex items-center justify-center text-[10px] font-mono transition-all duration-300 border`;
+                    node.className = `demo-node w-11 h-11 rounded-2xl flex items-center justify-center text-xs font-mono border transition-all`;
                     
                     if (levelIndex === 3) {
-                        node.className += ` bg-emerald-500/20 border-emerald-400 text-emerald-400`;
-                        node.innerHTML = 'Root';
+                        node.className += ` bg-emerald-500/20 border-emerald-400 text-emerald-300`;
+                        node.innerHTML = 'ROOT';
                     } else {
                         node.className += ` bg-white/5 border-white/20`;
-                        node.innerHTML = (levelIndex * 10 + i).toString(16);
+                        node.innerHTML = (levelIndex * 20 + i).toString(16).toUpperCase();
                     }
                     
                     row.appendChild(node);
                 }
                 container.appendChild(row);
             });
-            
-            // Add subtle animation effect
-            setTimeout(() => {
-                container.style.transition = 'all 0.6s ease';
-            }, 50);
         }
 
-        // Keyboard support
-        document.addEventListener('keydown', function(e) {
-            if (e.key === "/" && document.activeElement.tagName === "BODY") {
-                e.preventDefault();
-                document.getElementById('playground').scrollIntoView({ behavior: 'smooth' });
-            }
-        });
+        function initMerkleTree() {
+            const container = document.getElementById('merkle-tree');
+            if (!container) return;
 
-        // Initialize
+            container.innerHTML = `
+                <div class="flex justify-center gap-x-3 mb-4">
+                    <div class="w-11 h-11 rounded-2xl bg-white/5 border border-white/20 flex items-center justify-center text-xs font-mono">A1</div>
+                    <div class="w-11 h-11 rounded-2xl bg-white/5 border border-white/20 flex items-center justify-center text-xs font-mono">B2</div>
+                    <div class="w-11 h-11 rounded-2xl bg-white/5 border border-white/20 flex items-center justify-center text-xs font-mono">C3</div>
+                    <div class="w-11 h-11 rounded-2xl bg-white/5 border border-white/20 flex items-center justify-center text-xs font-mono">D4</div>
+                </div>
+                <div class="flex justify-center gap-x-6 mb-4">
+                    <div class="w-11 h-11 rounded-2xl bg-white/5 border border-white/20 flex items-center justify-center text-xs font-mono">AB</div>
+                    <div class="w-11 h-11 rounded-2xl bg-white/5 border border-white/20 flex items-center justify-center text-xs font-mono">CD</div>
+                </div>
+                <div class="flex justify-center">
+                    <div class="w-11 h-11 rounded-2xl bg-emerald-500/20 border border-emerald-400 flex items-center justify-center text-xs font-mono text-emerald-300">ROOT</div>
+                </div>
+            `;
+        }
+
         function init() {
             initializeTailwind();
             
-            // Show first demo panel by default
-            document.getElementById('demo-panel-0').classList.remove('hidden');
-            document.getElementById('tab-0').classList.add('active', 'bg-white', 'text-[#0a0c14]');
-            
-            // Initialize Merkle visual with default state
-            setTimeout(() => {
-                const merkleContainer = document.getElementById('merkle-visual');
-                if (merkleContainer) {
-                    merkleContainer.innerHTML = `
-                        <div class="flex justify-center gap-x-4 mb-3">
-                            <div class="w-9 h-9 rounded-2xl bg-white/5 border border-white/20 flex items-center justify-center text-[10px] font-mono">a1</div>
-                            <div class="w-9 h-9 rounded-2xl bg-white/5 border border-white/20 flex items-center justify-center text-[10px] font-mono">b2</div>
-                            <div class="w-9 h-9 rounded-2xl bg-white/5 border border-white/20 flex items-center justify-center text-[10px] font-mono">c3</div>
-                            <div class="w-9 h-9 rounded-2xl bg-white/5 border border-white/20 flex items-center justify-center text-[10px] font-mono">d4</div>
-                        </div>
-                        <div class="flex justify-center gap-x-8 mb-3">
-                            <div class="w-9 h-9 rounded-2xl bg-white/5 border border-white/20 flex items-center justify-center text-[10px] font-mono">ab</div>
-                            <div class="w-9 h-9 rounded-2xl bg-white/5 border border-white/20 flex items-center justify-center text-[10px] font-mono">cd</div>
-                        </div>
-                        <div class="flex justify-center">
-                            <div class="w-9 h-9 rounded-2xl bg-emerald-500/20 border border-emerald-400 flex items-center justify-center text-[10px] font-mono text-emerald-400">root</div>
-                        </div>
-                    `;
-                }
-            }, 800);
+            // Show first playground tab by default
+            document.getElementById('playground-panel-0').classList.remove('hidden');
+            document.getElementById('tab-btn-0').classList.add('bg-white', 'text-[#0a0c14]');
 
-            console.log('%c[xplyweb] Premium redesign loaded successfully.', 'color:#64748b');
+            // Initialize Merkle tree demo
+            setTimeout(() => {
+                initMerkleTree();
+            }, 600);
+
+            console.log('%c[xplyweb] World-class self-contained playground initialized.', 'color:#64748b');
         }
 
         window.onload = init;
